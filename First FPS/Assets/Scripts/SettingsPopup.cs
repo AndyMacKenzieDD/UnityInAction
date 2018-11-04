@@ -8,9 +8,13 @@ public class SettingsPopup : MonoBehaviour
     [SerializeField]
     private Slider speedSlide;
 
-	void Start ()
+    [SerializeField]
+    private InputField PlayerName;
+
+    void Start ()
     {
         speedSlide.value = PlayerPrefs.GetFloat("speed", 1);
+        PlayerName.text = PlayerPrefs.GetString("name");
 	}
 	
 	void Update ()
@@ -30,7 +34,7 @@ public class SettingsPopup : MonoBehaviour
 
     public void OnSubmitName(string name)
     {
-        Debug.Log(name);
+        PlayerPrefs.SetString("name", name);
     }
 
     public void OnSpeedValue(float speed)

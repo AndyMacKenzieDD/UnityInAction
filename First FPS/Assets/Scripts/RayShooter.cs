@@ -28,6 +28,7 @@ public class RayShooter : MonoBehaviour
                 GameObject hitObject = hit.transform.gameObject;
                 ReactiveTarget target = hitObject.GetComponent<ReactiveTarget>();
                 WanderingAI ai = hitObject.GetComponent<WanderingAI>();
+                BackAndForth sphere = hitObject.GetComponent<BackAndForth>();
                 if(target != null && ai._alive)
                 {
                     target.ReactToHit();
@@ -36,6 +37,11 @@ public class RayShooter : MonoBehaviour
                 else
                 {
                     StartCoroutine(SphereIndicator(hit.point));
+                }
+
+                if(sphere != null)
+                {
+                    Destroy(sphere.gameObject);
                 }
             }
         }

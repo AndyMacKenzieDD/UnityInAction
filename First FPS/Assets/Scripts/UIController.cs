@@ -11,6 +11,7 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private SettingsPopup settingsPopup;
 
+
     private int _score;
 
     private void Awake()
