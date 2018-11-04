@@ -24,7 +24,7 @@ public class OrbitCamera : MonoBehaviour
         {
             _rotY += horInput * rotSpeed;
         }
-        else
+        //else
         {
             _rotY += Input.GetAxis("Mouse X") * rotSpeed * 3;
         }
