@@ -3,16 +3,13 @@ using UnityEngine;
 
 public class ReactiveTarget : MonoBehaviour
 {
-
 	void Start ()
     {
-		
-	}
-	
-	void Update ()
+    }
+
+    void Update ()
     {
-		
-	}
+    }
 
     public void ReactToHit()
     {
