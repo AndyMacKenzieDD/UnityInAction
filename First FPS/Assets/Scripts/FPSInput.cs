@@ -7,7 +7,6 @@ public class FPSInput : MonoBehaviour
 {
     private CharacterController _charController;
     public float speed = 6.0f;
-    public float baseSpeed = 6.0f;
     public float gravity = -9.8f;
 
     private void Awake()
@@ -23,6 +22,7 @@ public class FPSInput : MonoBehaviour
 
     void Start ()
     {
+        speed = PlayerPrefs.GetFloat("speed");
         _charController = GetComponent<CharacterController>();
     }
 	
@@ -40,6 +40,6 @@ public class FPSInput : MonoBehaviour
 
     private void OnSpeedChanged(float value)
     {
-        speed = baseSpeed * value;
+        speed = value;
     }
 }
