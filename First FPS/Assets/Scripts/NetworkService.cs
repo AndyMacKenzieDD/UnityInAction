@@ -6,7 +6,7 @@ using UnityEngine;
 public class NetworkService : MonoBehaviour
 {
     private const string xmlApi = "http://api.openweathermap.org/data/2.5/weather?q=Chicago,us&mode=xml&APPID=b5c83d3c8a729dc9c6f9578b8a9131be";
-    private const string jsonAPI = "http://api.openweathermap.org/data/2.5/weather?q=Chicago,us&APPID=b5c83d3c8a729dc9c6f9578b8a9131be";
+    private const string jsonAPI = "http://api.openweathermap.org/data/2.5/weather?q=Minsk,by&APPID=b5c83d3c8a729dc9c6f9578b8a9131be";
     private const string webImage = "http://upload.wikimedia.org/wikipedia/commons/c/c5/Moraine_Lake_17092005.jpg";
 
     private const string myApi = "http://www.andymackenziedd.h1n.ru/ch9/api.php";
