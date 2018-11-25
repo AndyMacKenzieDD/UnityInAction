@@ -39,13 +39,52 @@ public class AudioManager : MonoBehaviour, IGameManager
         }
     }
 
+    public float musicVolume
+    {
+        get
+        {
+            return _musicVolume;
+        }
+        set
+        {
+            _musicVolume = value;
+
+            if(music1Source != null)
+            {
+                music1Source.volume = _musicVolume;
+            }
+        }
+    }
+
+    public bool musicMute
+    {
+        get
+        {
+            if(music1Source != null)
+            {
+                return music1Source.mute;
+            }
+            return false;
+        }
+        set
+        {
+            if(music1Source != null)
+            {
+                music1Source.mute = value;
+            }
+        }
+    }
+
+    private float _musicVolume;
     private NetworkService _network;
 
     public void Startup(NetworkService service)
     {
-        Debug.Log("Audiomanager strarting...");
+        Debug.Log("Audio manager strarting...");
 
         _network = service;
+        music1Source.ignoreListenerVolume = true;
+        music1Source.ignoreListenerPause = true;
 
         soundVolume = 1f;
 

@@ -54,6 +54,17 @@ public class SettingsPopup : MonoBehaviour
         Managers.Audio.PlaySound(sound);
     }
 
+    public void OnMusicToggle()
+    {
+        Managers.Audio.musicMute = !Managers.Audio.musicMute;
+        Managers.Audio.PlaySound(sound);
+    }
+
+    public void OnMusicValue(float volume)
+    {
+        Managers.Audio.musicVolume = volume;
+    }
+
     public void OnSoundValue(float volume)
     {
         Managers.Audio.soundVolume = volume;
