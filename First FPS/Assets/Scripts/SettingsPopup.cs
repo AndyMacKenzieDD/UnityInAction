@@ -11,6 +11,9 @@ public class SettingsPopup : MonoBehaviour
     [SerializeField]
     private InputField PlayerName;
 
+    [SerializeField]
+    private AudioClip sound;
+
     void Start ()
     {
         speedSlide.value = PlayerPrefs.GetFloat("speed", 1);
@@ -30,6 +33,8 @@ public class SettingsPopup : MonoBehaviour
     public void Close()
     {
         gameObject.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void OnSubmitName(string name)
@@ -41,5 +46,16 @@ public class SettingsPopup : MonoBehaviour
     {
         PlayerPrefs.SetFloat("speed", speed);
         Messenger<float>.Broadcast(GameEvent.SPEED_CHANGED, speed);
+    }
+
+    public void OnSoundToggle()
+    {                
+        Managers.Audio.soundMute = !Managers.Audio.soundMute;
+        Managers.Audio.PlaySound(sound);
+    }
+
+    public void OnSoundValue(float volume)
+    {
+        Managers.Audio.soundVolume = volume;
     }
 }
