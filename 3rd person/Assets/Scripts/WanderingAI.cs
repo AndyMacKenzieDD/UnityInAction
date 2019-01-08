@@ -6,7 +6,7 @@ public class WanderingAI : MonoBehaviour
     private GameObject fireballPrefab;
     private GameObject _fireball;
 
-    public float speed = 3.0f;
+    public float speed;
     public float obstacleRange = 5.0f;
     public bool _alive;
 
@@ -19,6 +19,7 @@ public class WanderingAI : MonoBehaviour
     {
         if(_alive)
         {
+            Debug.Log(speed);
             transform.Translate(0, 0, speed * Time.deltaTime);
 
             Ray ray = new Ray(transform.position, transform.forward);

@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class PlayerCharacter : MonoBehaviour
 {
-    private int _health;
-
 	void Start ()
     {
-        _health = 5;
+
 	}
 	
 	void Update ()
@@ -18,7 +16,6 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Hurt(int damage)
     {
-        _health -=damage;
-        Debug.Log("Health: " + _health);
+        Managers.Player.ChangeHealth(-damage);
     }
 }
