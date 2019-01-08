@@ -2,19 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColorChangeDevice : MonoBehaviour {
+public class ColorChangeDevice : BaseDevice {
 
-	void Start ()
-    {
-		
-	}
-	
-	void Update ()
-    {
-		
-	}
-
-    public void Operate()
+    public override void Operate()
     {
         Color random = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
         GetComponent<Renderer>().material.color = random;

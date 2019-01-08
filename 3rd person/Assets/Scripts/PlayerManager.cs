@@ -35,6 +35,8 @@ public class PlayerManager : MonoBehaviour, IGameManager
             health = 0;
         }
 
+        Messenger.Broadcast(GameEvent.HEALTH_UPDATED);
+
         Debug.Log("Health: " + health + "/" + maxHealth);
     }
 }

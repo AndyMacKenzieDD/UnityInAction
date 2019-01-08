@@ -1,9 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-public class RelativeMovement : MonoBehaviour
+public class PointClickMovement : MonoBehaviour
 {
     [SerializeField]
     private Transform target;
@@ -22,19 +22,23 @@ public class RelativeMovement : MonoBehaviour
 
     private float _vertSpeed;
 
+    public float deceleration = 20.0f;
+    public float targetBuffer = 1.5f;
+    private float _curSpeed = 1f;
+    private Vector3 _targetPos = Vector3.one;
 
-    void Start ()
+    void Start()
     {
         _charController = GetComponent<CharacterController>();
         _vertSpeed = minFall;
         _animator = GetComponent<Animator>();
-	}
-	
-	void Update ()
+    }
+
+    void Update()
     {
         bool hitGround = false;
         RaycastHit hit;
-        if(_vertSpeed < 0 && Physics.Raycast(transform.position, Vector3.down, out hit))
+        if (_vertSpeed < 0 && Physics.Raycast(transform.position, Vector3.down, out hit))
         {
             float check = (_charController.height + _charController.radius) / 1.9f;
             hitGround = hit.distance <= check;
@@ -42,14 +46,38 @@ public class RelativeMovement : MonoBehaviour
 
         Vector3 movement = Vector3.zero;
 
-        float horInput = Input.GetAxis("Horizontal");
-        float vertInput = Input.GetAxis("Vertical");
-
-        if (horInput != 0 || vertInput != 0)
+        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
         {
-            movement.x = horInput * moveSpeed;
-            movement.z = vertInput * moveSpeed;
-            movement = Vector3.ClampMagnitude(movement, moveSpeed);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit mouseHit;
+            if (Physics.Raycast(ray, out mouseHit))
+            {
+                GameObject hitObject = mouseHit.transform.gameObject;
+                if (hitObject.layer == LayerMask.NameToLayer("Ground"))
+                {
+                    _targetPos = mouseHit.point;
+                    _curSpeed = moveSpeed;
+                }
+            }
+        }
+
+        if (_targetPos != Vector3.one)
+        {
+            Vector3 adjustedPos = new Vector3(_targetPos.x, transform.position.y, _targetPos.z);
+            Quaternion targetRot = Quaternion.LookRotation(adjustedPos - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotSpeed * Time.deltaTime);
+
+            movement = _curSpeed * Vector3.forward;
+            movement = transform.TransformDirection(movement);
+
+            if (Vector3.Distance(_targetPos, transform.position) < targetBuffer)
+            {
+                _curSpeed -= deceleration * Time.deltaTime;
+                if (_curSpeed <= 0)
+                {
+                    _targetPos = Vector3.one;
+                }
+            }
 
             _animator.SetFloat("Speed", movement.sqrMagnitude);
 
@@ -62,25 +90,17 @@ public class RelativeMovement : MonoBehaviour
             Quaternion direction = Quaternion.LookRotation(movement);
             transform.rotation = Quaternion.Lerp(transform.rotation, direction, rotSpeed * Time.deltaTime);
 
+            Debug.Log(movement);
+
+
             movement *= Time.deltaTime;
             _charController.Move(movement);
-
-            
         }
-        
 
-        //if (_charController.isGrounded)
         if (hitGround)
         {
-            if (Input.GetButtonDown("Jump"))
-            {
-                _vertSpeed = jumpSpeed;
-            }
-            else
-            {
-                _vertSpeed = minFall;
-                _animator.SetBool("Jumping", false);
-            }
+            _vertSpeed = minFall;
+            _animator.SetBool("Jumping", false);
         }
         else
         {
@@ -93,9 +113,9 @@ public class RelativeMovement : MonoBehaviour
             {
                 _animator.SetBool("Jumping", true);
             }
-            if(_charController.isGrounded)
+            if (_charController.isGrounded)
             {
-                if(Vector3.Dot(movement, _contact.normal) < 0)
+                if (Vector3.Dot(movement, _contact.normal) < 0)
                 {
                     movement = _contact.normal * moveSpeed;
                 }
@@ -109,14 +129,14 @@ public class RelativeMovement : MonoBehaviour
         movement.y = _vertSpeed;
         movement *= Time.deltaTime;
         _charController.Move(movement);
-	}
+    }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         _contact = hit;
 
         Rigidbody body = hit.collider.attachedRigidbody;
-        if(body != null && !body.isKinematic)
+        if (body != null && !body.isKinematic)
         {
             body.velocity = hit.moveDirection * pushForce;
         }
