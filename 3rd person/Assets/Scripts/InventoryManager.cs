@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour, IGameManager
 {
+    private NetworkService _network;
+
     public ManagerStatus status { get; private set; }
 
     private Dictionary<string, int> _items;
@@ -24,9 +26,11 @@ public class InventoryManager : MonoBehaviour, IGameManager
         return 0;
     }
 
-    public void StartUp()
+    public void StartUp(NetworkService service)
     {
         Debug.Log("Inventory manager starting...");
+
+        _network = service;
 
         _items = new Dictionary<string, int>();
 
