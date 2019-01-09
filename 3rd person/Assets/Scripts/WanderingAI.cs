@@ -19,7 +19,6 @@ public class WanderingAI : MonoBehaviour
     {
         if(_alive)
         {
-            Debug.Log(speed);
             transform.Translate(0, 0, speed * Time.deltaTime);
 
             Ray ray = new Ray(transform.position, transform.forward);

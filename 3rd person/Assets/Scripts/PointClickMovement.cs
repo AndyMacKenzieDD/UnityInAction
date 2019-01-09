@@ -90,9 +90,6 @@ public class PointClickMovement : MonoBehaviour
             Quaternion direction = Quaternion.LookRotation(movement);
             transform.rotation = Quaternion.Lerp(transform.rotation, direction, rotSpeed * Time.deltaTime);
 
-            Debug.Log(movement);
-
-
             movement *= Time.deltaTime;
             _charController.Move(movement);
         }

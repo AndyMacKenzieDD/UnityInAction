@@ -39,13 +39,15 @@ public class MissionManager : MonoBehaviour, IGameManager
         }
     }
 
-    void Start()
+    public void ReachObjective()
     {
-        
+        Messenger.Broadcast(GameEvent.LEVEL_COMPLETE);
     }
 
-    void Update()
+    public void RestartCurrent()
     {
-        
+        string name = "Level" + curLevel;
+        Debug.Log("Loading " + name);
+        SceneManager.LoadScene(name);
     }
 }
