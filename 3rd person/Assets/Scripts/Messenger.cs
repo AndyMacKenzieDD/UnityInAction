@@ -27,6 +27,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public enum MessengerMode
 {
@@ -142,7 +143,7 @@ static internal class MessengerInternal
     }
 }
 
-// No parameters
+[RequireComponent(typeof(MissionManager))]
 static public class Messenger
 {
     static public void AddListener(string eventType, Action handler)
