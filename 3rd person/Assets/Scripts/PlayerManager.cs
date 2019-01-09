@@ -22,7 +22,7 @@ public class PlayerManager : MonoBehaviour, IGameManager
         status = ManagerStatus.Started;
     }
 
-    private void UpdateData(int health, int maxHealth)
+    public void UpdateData(int health, int maxHealth)
     {
         this.health = health;
         this.maxHealth = maxHealth;
